@@ -33,9 +33,9 @@ jobs:
         - name: terraform plan
           run: |
             cd infra/envs/${{ github.event.inputs.environment }}
-            terraform plan -var="tenant_id=${{ github.event.inputs.tenant_id }}" -out=tfplan
+            terraform plan -var="tenant_id=${{ github.event.inputs.tenant_id }}"
         
         - name: terraform apply
           run: |
             cd infra/envs/${{ github.event.inputs.environment }}
-            terraform apply -auto-approve -var="tenant_id=${{ github.event.inputs.tenant_id }}" -out=tfplan
+            terraform apply -auto-approve -var="tenant_id=${{ github.event.inputs.tenant_id }}"
