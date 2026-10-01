@@ -13,8 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: Checkout code
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
 
         - name: terraform init 
-          run | cd infra/envs/{{ github.event.inputs.environment }}
+          run: | 
+
+            cd infra/envs/{{ github.event.inputs.environment }}
             terraform init
