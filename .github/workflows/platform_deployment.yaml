@@ -13,6 +13,8 @@ on:
           required: true
 jobs:
   deploy:
+    environment:
+      name: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
     steps:
         - name: Checkout code
@@ -23,6 +25,10 @@ jobs:
           with:
             terraform_version: "1.11"
             terraform_wrapper: false
+        - name: az login
+          uses: azure/login@v3
+          with:
+              creds: ${{ secrets.AZURE_CREDENTIALS }}
 
         - name: terraform init 
           run: | 
