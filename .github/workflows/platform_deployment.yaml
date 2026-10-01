@@ -26,3 +26,9 @@ jobs:
 
             cd infra/envs/${{ github.event.inputs.environment }}
             terraform init
+          
+        - name: terraform plan
+          run: terraform plan -out=tfplan 
+        
+        - name: terraform apply
+          run: terraform apply -auto-approve tfplan
