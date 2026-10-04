@@ -27,5 +27,6 @@ jobs:
           run: |
             echo "Destroying environment: ${{ github.event.inputs.environment }}"
             cd infra/envs/${{ github.event.inputs.environment }}
+            terraform init
             terraform destroy -var="tenant_id=${{ vars.tenant_id }}" -auto-approve
             echo "Environment ${{ github.event.inputs.environment }} destroyed successfully."
