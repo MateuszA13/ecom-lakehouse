@@ -8,13 +8,10 @@ terraform {
     }
   }
 
-  # Remote state w storage'u z bootstrapu.
-  # Wartości <...> uzupełnij po apply w infra/bootstrap (z jego outputów).
-  #   backend "azurerm" {
-  #     resource_group_name  = "<rg-z-bootstrapu>"
-  #     storage_account_name = "<storage-z-bootstrapu>"
-  #     container_name       = "tfstate"
-  #     key                  = "dev/platform.tfstate"
-  #     use_azuread_auth     = true
-  #   }
+  backend "azurerm" {
+      resource_group_name  = "data-engineering"
+      storage_account_name = "storageaccountstate001"
+      container_name       = "tfstate"
+      key                  = "terraform-dev.tfstate"
+  }
 }
