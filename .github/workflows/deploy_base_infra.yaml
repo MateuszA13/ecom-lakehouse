@@ -38,6 +38,7 @@ jobs:
           cd infra/envs/${{ github.event.inputs.environment }}
           terraform apply -auto-approve -var="tenant_id=${{ vars.tenant_id }}"
   destroy:
+        needs: deploy
         environment:
             name: dev-destroy
         runs-on: ubuntu-latest
