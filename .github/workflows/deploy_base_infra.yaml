@@ -1,0 +1,65 @@
+name: Deploy Base Infra
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    environment:
+      name: dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.11"
+          terraform_wrapper: false
+
+      - name: az login
+        uses: azure/login@v3
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: terraform init 
+        run: | 
+          cd infra/base_infra
+          terraform init
+        
+      - name: terraform plan
+        run: |
+          cd infra/envs/${{ github.event.inputs.environment }}
+          terraform plan -var="tenant_id=${{ vars.tenant_id }}"
+      
+      - name: terraform apply
+        run: |
+          cd infra/envs/${{ github.event.inputs.environment }}
+          terraform apply -auto-approve -var="tenant_id=${{ vars.tenant_id }}"
+  destroy:
+        environment:
+            name: dev-destroy
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+        
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+              with:
+                terraform_version: "1.11"
+                terraform_wrapper: false
+            - name: az login
+              uses: azure/login@v3
+              with:
+                    creds: ${{ secrets.AZURE_CREDENTIALS }}
+            - name: terraform destroy
+              run: |
+                echo "Destroying environment: base_infra"
+                cd infra/base_infra
+                terraform init
+                terraform destroy -var="tenant_id=${{ vars.tenant_id }}" -auto-approve
+                echo "Environment base_infra destroyed successfully."
+        
