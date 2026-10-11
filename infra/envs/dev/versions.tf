@@ -12,6 +12,6 @@ terraform {
       resource_group_name  = "data-engineering"
       storage_account_name = "storageaccountstate001"
       container_name       = "tfstate"
-      key                  = "terraform-dev.tfstate"
+      key                  = "dev/terraform-dev.tfstate"
   }
 }
